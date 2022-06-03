@@ -1,0 +1,8 @@
+
+git branch 		<--- lists different branches
+git branch testing 	<--- creates a branch "called testing" OBS it's not active yet!
+git checkout testing 	<-- switches to "testing" branch.. to see which is active use "git branch" and look for *
+git checkout master 
+git merge test 		<-- merging test into master.. ":wq + enter" (to get out of wim)
+
+git add -A && git commit -m "some comment" && git push <---oneliner to add/commit/push

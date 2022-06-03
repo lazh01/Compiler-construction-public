@@ -1,0 +1,7 @@
+# Check of return statements, a return statement in the main functino
+# should not be allowed
+# changed out file to not have newline at end
+var i:int;
+i = 42;
+
+return i;

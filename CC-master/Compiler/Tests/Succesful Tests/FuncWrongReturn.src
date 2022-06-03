@@ -1,0 +1,13 @@
+# Typechecker should
+var a : int;
+
+func c(): int
+   type b = array of bool;
+   var c : b;
+   return c;
+end c
+
+a = c();
+
+write 42;
+

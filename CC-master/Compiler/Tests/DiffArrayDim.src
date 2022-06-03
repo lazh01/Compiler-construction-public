@@ -1,0 +1,12 @@
+type b = array of int;
+type c = array of b;
+var i : b;
+var j : c;
+
+allocate j of length 7;
+
+i = j;
+
+write 42;
+
+

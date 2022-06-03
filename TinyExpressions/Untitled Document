@@ -1,0 +1,3 @@
+var dummy:int, counter:int, m:int, n:int, fp:int, fw:int, fe:int, mybool:bool;
+
+if(k < n-1) then dummy = BKnap(k+1, cp+p[k], cw+w[k]);

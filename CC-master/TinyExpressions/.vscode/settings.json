@@ -1,0 +1,7 @@
+{
+    "C_Cpp.intelliSenseEngineFallback": "Disabled",
+    "files.associations": {
+        "frame.h": "c",
+        "codegen.h": "c"
+    }
+}

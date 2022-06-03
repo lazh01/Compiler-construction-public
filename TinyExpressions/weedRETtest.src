@@ -1,0 +1,38 @@
+# Test for weeder
+# Adder function is not guaranteed to reach a return state. A warning message should be printed in the terminal because of that.
+# Subtract function reaches a return state before reaching the en of the function and should print out a note saying that the rest of the function will never be reached.
+func adder(i: int, j: int, b: bool): int
+   write i + j;
+
+   if b then{
+      write i + j;}
+   else{
+      write 1;
+      return 7;}
+
+   b = !b;
+   if b then{
+      return 4;}
+   else{
+      write i + j;}
+end adder
+
+
+func subtract(i: int, j: int, b: bool): int
+   write i - j;
+
+   if b then{
+      write i - j;
+      return 8;}
+   else{
+      write 1;
+      return 5;}
+   b = !b;
+   if b then{
+      return 3;}
+   else{
+      write i + j;}
+   return 3;
+end subtract
+
+write 7;

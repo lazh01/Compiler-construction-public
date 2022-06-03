@@ -1,0 +1,6 @@
+# Code generation, simple function
+func adder(i: int, j: int): int
+   return i + j;
+end adder
+
+write adder(11, 34);

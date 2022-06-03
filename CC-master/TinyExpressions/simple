@@ -1,0 +1,11 @@
+# Code generation, realistic example of code
+var d : int;
+d = 1;
+write 4;
+write d;
+d++;
+write d;
+for (var i : int;) ++ [0,10]
+{
+   write 10;
+]

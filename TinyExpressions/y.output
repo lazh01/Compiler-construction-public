@@ -1,0 +1,1956 @@
+Terminals unused in grammar
+
+   ERROR
+
+
+Grammar
+
+    0 $accept: program $end
+
+    1 program: body
+
+    2 variable: tIDENTIFIER
+    3         | variable '[' expression ']'
+    4         | variable '.' tIDENTIFIER
+
+    5 expression: expression '+' expression
+    6           | expression '-' expression
+    7           | expression '*' expression
+    8           | expression '/' expression
+    9           | expression '<' expression
+   10           | expression '>' expression
+   11           | expression AND expression
+   12           | expression OR expression
+   13           | expression GEQ expression
+   14           | expression LEQ expression
+   15           | expression NEQ expression
+   16           | expression EQ expression
+   17           | term
+
+   18 exp_list: expression
+   19         | expression ',' exp_list
+
+   20 term: variable
+   21     | tINTCONST
+   22     | tIDENTIFIER '(' act_list ')'
+   23     | '(' expression ')'
+   24     | '!' term
+   25     | '|' expression '|'
+   26     | tBOOL
+   27     | tNULL
+
+   28 act_list: exp_list
+   29         | %empty
+
+   30 statement: RETURN expression ';'
+   31          | WRITE expression ';'
+   32          | ALLOCATE variable ';'
+   33          | ALLOCATE variable OFLENGTH expression ';'
+   34          | variable '=' expression ';'
+   35          | IF expression THEN statement
+   36          | IF expression THEN statement ELSE statement
+   37          | WHILE expression DO statement
+   38          | '{' statement_list '}'
+
+   39 statement_list: statement
+   40               | statement statement_list
+
+   41 declaration: TYPEY tIDENTIFIER '=' type ';'
+   42            | function
+   43            | VARI var_decl_list ';'
+
+   44 decl_list: declaration decl_list
+   45          | %empty
+
+   46 body: decl_list statement_list
+
+   47 var_type: tIDENTIFIER ':' type
+
+   48 var_decl_list: var_type ',' var_decl_list
+   49              | var_type
+
+   50 par_decl_list: var_decl_list
+   51              | %empty
+
+   52 type: tIDENTIFIER
+   53     | INT
+   54     | BOOL
+   55     | ARRAYOF type
+   56     | RECORDOF '{' var_decl_list '}'
+
+   57 function: head body tail
+
+   58 head: FUNC tIDENTIFIER '(' par_decl_list ')' ':' type
+
+   59 tail: END tIDENTIFIER
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+'!' (33) 24
+'(' (40) 22 23 58
+')' (41) 22 23 58
+'*' (42) 7
+'+' (43) 5
+',' (44) 19 48
+'-' (45) 6
+'.' (46) 4
+'/' (47) 8
+':' (58) 47 58
+';' (59) 30 31 32 33 34 41 43
+'<' (60) 9
+'=' (61) 34 41
+'>' (62) 10
+'[' (91) 3
+']' (93) 3
+'{' (123) 38 56
+'|' (124) 25
+'}' (125) 38 56
+error (256)
+tINTCONST (258) 21
+tIDENTIFIER (259) 2 4 22 41 47 52 58 59
+AND (260) 11
+OR (261) 12
+EQ (262) 16
+LEQ (263) 14
+GEQ (264) 13
+NEQ (265) 15
+tBOOL (266) 26
+tNULL (267) 27
+ERROR (268)
+RETURN (269) 30
+WHILE (270) 37
+ALLOCATE (271) 32 33
+WRITE (272) 31
+OFLENGTH (273) 33
+IF (274) 35 36
+ELSE (275) 36
+THEN (276) 35 36
+DO (277) 37
+TYPEY (278) 41
+ARRAYOF (279) 55
+RECORDOF (280) 56
+VARI (281) 43
+FUNC (282) 58
+INT (283) 53
+BOOL (284) 54
+END (285) 59
+
+
+Nonterminals, with rules where they appear
+
+$accept (50)
+    on left: 0
+program (51)
+    on left: 1, on right: 0
+variable (52)
+    on left: 2 3 4, on right: 3 4 20 32 33 34
+expression (53)
+    on left: 5 6 7 8 9 10 11 12 13 14 15 16 17, on right: 3 5 6 7 8
+    9 10 11 12 13 14 15 16 18 19 23 25 30 31 33 34 35 36 37
+exp_list (54)
+    on left: 18 19, on right: 19 28
+term (55)
+    on left: 20 21 22 23 24 25 26 27, on right: 17 24
+act_list (56)
+    on left: 28 29, on right: 22
+statement (57)
+    on left: 30 31 32 33 34 35 36 37 38, on right: 35 36 37 39 40
+statement_list (58)
+    on left: 39 40, on right: 38 40 46
+declaration (59)
+    on left: 41 42 43, on right: 44
+decl_list (60)
+    on left: 44 45, on right: 44 46
+body (61)
+    on left: 46, on right: 1 57
+var_type (62)
+    on left: 47, on right: 48 49
+var_decl_list (63)
+    on left: 48 49, on right: 43 48 50 56
+par_decl_list (64)
+    on left: 50 51, on right: 58
+type (65)
+    on left: 52 53 54 55 56, on right: 41 47 55 58
+function (66)
+    on left: 57, on right: 42
+head (67)
+    on left: 58, on right: 57
+tail (68)
+    on left: 59, on right: 57
+
+
+State 0
+
+    0 $accept: . program $end
+
+    TYPEY  shift, and go to state 1
+    VARI   shift, and go to state 2
+    FUNC   shift, and go to state 3
+
+    $default  reduce using rule 45 (decl_list)
+
+    program      go to state 4
+    declaration  go to state 5
+    decl_list    go to state 6
+    body         go to state 7
+    function     go to state 8
+    head         go to state 9
+
+
+State 1
+
+   41 declaration: TYPEY . tIDENTIFIER '=' type ';'
+
+    tIDENTIFIER  shift, and go to state 10
+
+
+State 2
+
+   43 declaration: VARI . var_decl_list ';'
+
+    tIDENTIFIER  shift, and go to state 11
+
+    var_type       go to state 12
+    var_decl_list  go to state 13
+
+
+State 3
+
+   58 head: FUNC . tIDENTIFIER '(' par_decl_list ')' ':' type
+
+    tIDENTIFIER  shift, and go to state 14
+
+
+State 4
+
+    0 $accept: program . $end
+
+    $end  shift, and go to state 15
+
+
+State 5
+
+   44 decl_list: declaration . decl_list
+
+    TYPEY  shift, and go to state 1
+    VARI   shift, and go to state 2
+    FUNC   shift, and go to state 3
+
+    $default  reduce using rule 45 (decl_list)
+
+    declaration  go to state 5
+    decl_list    go to state 16
+    function     go to state 8
+    head         go to state 9
+
+
+State 6
+
+   46 body: decl_list . statement_list
+
+    tIDENTIFIER  shift, and go to state 17
+    RETURN       shift, and go to state 18
+    WHILE        shift, and go to state 19
+    ALLOCATE     shift, and go to state 20
+    WRITE        shift, and go to state 21
+    IF           shift, and go to state 22
+    '{'          shift, and go to state 23
+
+    variable        go to state 24
+    statement       go to state 25
+    statement_list  go to state 26
+
+
+State 7
+
+    1 program: body .
+
+    $default  reduce using rule 1 (program)
+
+
+State 8
+
+   42 declaration: function .
+
+    $default  reduce using rule 42 (declaration)
+
+
+State 9
+
+   57 function: head . body tail
+
+    TYPEY  shift, and go to state 1
+    VARI   shift, and go to state 2
+    FUNC   shift, and go to state 3
+
+    $default  reduce using rule 45 (decl_list)
+
+    declaration  go to state 5
+    decl_list    go to state 6
+    body         go to state 27
+    function     go to state 8
+    head         go to state 9
+
+
+State 10
+
+   41 declaration: TYPEY tIDENTIFIER . '=' type ';'
+
+    '='  shift, and go to state 28
+
+
+State 11
+
+   47 var_type: tIDENTIFIER . ':' type
+
+    ':'  shift, and go to state 29
+
+
+State 12
+
+   48 var_decl_list: var_type . ',' var_decl_list
+   49              | var_type .
+
+    ','  shift, and go to state 30
+
+    $default  reduce using rule 49 (var_decl_list)
+
+
+State 13
+
+   43 declaration: VARI var_decl_list . ';'
+
+    ';'  shift, and go to state 31
+
+
+State 14
+
+   58 head: FUNC tIDENTIFIER . '(' par_decl_list ')' ':' type
+
+    '('  shift, and go to state 32
+
+
+State 15
+
+    0 $accept: program $end .
+
+    $default  accept
+
+
+State 16
+
+   44 decl_list: declaration decl_list .
+
+    $default  reduce using rule 44 (decl_list)
+
+
+State 17
+
+    2 variable: tIDENTIFIER .
+
+    $default  reduce using rule 2 (variable)
+
+
+State 18
+
+   30 statement: RETURN . expression ';'
+
+    tINTCONST    shift, and go to state 33
+    tIDENTIFIER  shift, and go to state 34
+    tBOOL        shift, and go to state 35
+    tNULL        shift, and go to state 36
+    '('          shift, and go to state 37
+    '!'          shift, and go to state 38
+    '|'          shift, and go to state 39
+
+    variable    go to state 40
+    expression  go to state 41
+    term        go to state 42
+
+
+State 19
+
+   37 statement: WHILE . expression DO statement
+
+    tINTCONST    shift, and go to state 33
+    tIDENTIFIER  shift, and go to state 34
+    tBOOL        shift, and go to state 35
+    tNULL        shift, and go to state 36
+    '('          shift, and go to state 37
+    '!'          shift, and go to state 38
+    '|'          shift, and go to state 39
+
+    variable    go to state 40
+    expression  go to state 43
+    term        go to state 42
+
+
+State 20
+
+   32 statement: ALLOCATE . variable ';'
+   33          | ALLOCATE . variable OFLENGTH expression ';'
+
+    tIDENTIFIER  shift, and go to state 17
+
+    variable  go to state 44
+
+
+State 21
+
+   31 statement: WRITE . expression ';'
+
+    tINTCONST    shift, and go to state 33
+    tIDENTIFIER  shift, and go to state 34
+    tBOOL        shift, and go to state 35
+    tNULL        shift, and go to state 36
+    '('          shift, and go to state 37
+    '!'          shift, and go to state 38
+    '|'          shift, and go to state 39
+
+    variable    go to state 40
+    expression  go to state 45
+    term        go to state 42
+
+
+State 22
+
+   35 statement: IF . expression THEN statement
+   36          | IF . expression THEN statement ELSE statement
+
+    tINTCONST    shift, and go to state 33
+    tIDENTIFIER  shift, and go to state 34
+    tBOOL        shift, and go to state 35
+    tNULL        shift, and go to state 36
+    '('          shift, and go to state 37
+    '!'          shift, and go to state 38
+    '|'          shift, and go to state 39
+
+    variable    go to state 40
+    expression  go to state 46
+    term        go to state 42
+
+
+State 23
+
+   38 statement: '{' . statement_list '}'
+
+    tIDENTIFIER  shift, and go to state 17
+    RETURN       shift, and go to state 18
+    WHILE        shift, and go to state 19
+    ALLOCATE     shift, and go to state 20
+    WRITE        shift, and go to state 21
+    IF           shift, and go to state 22
+    '{'          shift, and go to state 23
+
+    variable        go to state 24
+    statement       go to state 25
+    statement_list  go to state 47
+
+
+State 24
+
+    3 variable: variable . '[' expression ']'
+    4         | variable . '.' tIDENTIFIER
+   34 statement: variable . '=' expression ';'
+
+    '['  shift, and go to state 48
+    '.'  shift, and go to state 49
+    '='  shift, and go to state 50
+
+
+State 25
+
+   39 statement_list: statement .
+   40               | statement . statement_list
+
+    tIDENTIFIER  shift, and go to state 17
+    RETURN       shift, and go to state 18
+    WHILE        shift, and go to state 19
+    ALLOCATE     shift, and go to state 20
+    WRITE        shift, and go to state 21
+    IF           shift, and go to state 22
+    '{'          shift, and go to state 23
+
+    $default  reduce using rule 39 (statement_list)
+
+    variable        go to state 24
+    statement       go to state 25
+    statement_list  go to state 51
+
+
+State 26
+
+   46 body: decl_list statement_list .
+
+    $default  reduce using rule 46 (body)
+
+
+State 27
+
+   57 function: head body . tail
+
+    END  shift, and go to state 52
+
+    tail  go to state 53
+
+
+State 28
+
+   41 declaration: TYPEY tIDENTIFIER '=' . type ';'
+
+    tIDENTIFIER  shift, and go to state 54
+    ARRAYOF      shift, and go to state 55
+    RECORDOF     shift, and go to state 56
+    INT          shift, and go to state 57
+    BOOL         shift, and go to state 58
+
+    type  go to state 59
+
+
+State 29
+
+   47 var_type: tIDENTIFIER ':' . type
+
+    tIDENTIFIER  shift, and go to state 54
+    ARRAYOF      shift, and go to state 55
+    RECORDOF     shift, and go to state 56
+    INT          shift, and go to state 57
+    BOOL         shift, and go to state 58
+
+    type  go to state 60
+
+
+State 30
+
+   48 var_decl_list: var_type ',' . var_decl_list
+
+    tIDENTIFIER  shift, and go to state 11
+
+    var_type       go to state 12
+    var_decl_list  go to state 61
+
+
+State 31
+
+   43 declaration: VARI var_decl_list ';' .
+
+    $default  reduce using rule 43 (declaration)
+
+
+State 32
+
+   58 head: FUNC tIDENTIFIER '(' . par_decl_list ')' ':' type
+
+    tIDENTIFIER  shift, and go to state 11
+
+    $default  reduce using rule 51 (par_decl_list)
+
+    var_type       go to state 12
+    var_decl_list  go to state 62
+    par_decl_list  go to state 63
+
+
+State 33
+
+   21 term: tINTCONST .
+
+    $default  reduce using rule 21 (term)
+
+
+State 34
+
+    2 variable: tIDENTIFIER .
+   22 term: tIDENTIFIER . '(' act_list ')'
+
+    '('  shift, and go to state 64
+
+    $default  reduce using rule 2 (variable)
+
+
+State 35
+
+   26 term: tBOOL .
+
+    $default  reduce using rule 26 (term)
+
+
+State 36
+
+   27 term: tNULL .
+
+    $default  reduce using rule 27 (term)
+
+
+State 37
+
+   23 term: '(' . expression ')'
+
+    tINTCONST    shift, and go to state 33
+    tIDENTIFIER  shift, and go to state 34
+    tBOOL        shift, and go to state 35
+    tNULL        shift, and go to state 36
+    '('          shift, and go to state 37
+    '!'          shift, and go to state 38
+    '|'          shift, and go to state 39
+
+    variable    go to state 40
+    expression  go to state 65
+    term        go to state 42
+
+
+State 38
+
+   24 term: '!' . term
+
+    tINTCONST    shift, and go to state 33
+    tIDENTIFIER  shift, and go to state 34
+    tBOOL        shift, and go to state 35
+    tNULL        shift, and go to state 36
+    '('          shift, and go to state 37
+    '!'          shift, and go to state 38
+    '|'          shift, and go to state 39
+
+    variable  go to state 40
+    term      go to state 66
+
+
+State 39
+
+   25 term: '|' . expression '|'
+
+    tINTCONST    shift, and go to state 33
+    tIDENTIFIER  shift, and go to state 34
+    tBOOL        shift, and go to state 35
+    tNULL        shift, and go to state 36
+    '('          shift, and go to state 37
+    '!'          shift, and go to state 38
+    '|'          shift, and go to state 39
+
+    variable    go to state 40
+    expression  go to state 67
+    term        go to state 42
+
+
+State 40
+
+    3 variable: variable . '[' expression ']'
+    4         | variable . '.' tIDENTIFIER
+   20 term: variable .
+
+    '['  shift, and go to state 48
+    '.'  shift, and go to state 49
+
+    $default  reduce using rule 20 (term)
+
+
+State 41
+
+    5 expression: expression . '+' expression
+    6           | expression . '-' expression
+    7           | expression . '*' expression
+    8           | expression . '/' expression
+    9           | expression . '<' expression
+   10           | expression . '>' expression
+   11           | expression . AND expression
+   12           | expression . OR expression
+   13           | expression . GEQ expression
+   14           | expression . LEQ expression
+   15           | expression . NEQ expression
+   16           | expression . EQ expression
+   30 statement: RETURN expression . ';'
+
+    '+'  shift, and go to state 68
+    '-'  shift, and go to state 69
+    '*'  shift, and go to state 70
+    '/'  shift, and go to state 71
+    AND  shift, and go to state 72
+    OR   shift, and go to state 73
+    EQ   shift, and go to state 74
+    LEQ  shift, and go to state 75
+    GEQ  shift, and go to state 76
+    NEQ  shift, and go to state 77
+    '<'  shift, and go to state 78
+    '>'  shift, and go to state 79
+    ';'  shift, and go to state 80
+
+
+State 42
+
+   17 expression: term .
+
+    $default  reduce using rule 17 (expression)
+
+
+State 43
+
+    5 expression: expression . '+' expression
+    6           | expression . '-' expression
+    7           | expression . '*' expression
+    8           | expression . '/' expression
+    9           | expression . '<' expression
+   10           | expression . '>' expression
+   11           | expression . AND expression
+   12           | expression . OR expression
+   13           | expression . GEQ expression
+   14           | expression . LEQ expression
+   15           | expression . NEQ expression
+   16           | expression . EQ expression
+   37 statement: WHILE expression . DO statement
+
+    '+'  shift, and go to state 68
+    '-'  shift, and go to state 69
+    '*'  shift, and go to state 70
+    '/'  shift, and go to state 71
+    AND  shift, and go to state 72
+    OR   shift, and go to state 73
+    EQ   shift, and go to state 74
+    LEQ  shift, and go to state 75
+    GEQ  shift, and go to state 76
+    NEQ  shift, and go to state 77
+    '<'  shift, and go to state 78
+    '>'  shift, and go to state 79
+    DO   shift, and go to state 81
+
+
+State 44
+
+    3 variable: variable . '[' expression ']'
+    4         | variable . '.' tIDENTIFIER
+   32 statement: ALLOCATE variable . ';'
+   33          | ALLOCATE variable . OFLENGTH expression ';'
+
+    OFLENGTH  shift, and go to state 82
+    '['       shift, and go to state 48
+    '.'       shift, and go to state 49
+    ';'       shift, and go to state 83
+
+
+State 45
+
+    5 expression: expression . '+' expression
+    6           | expression . '-' expression
+    7           | expression . '*' expression
+    8           | expression . '/' expression
+    9           | expression . '<' expression
+   10           | expression . '>' expression
+   11           | expression . AND expression
+   12           | expression . OR expression
+   13           | expression . GEQ expression
+   14           | expression . LEQ expression
+   15           | expression . NEQ expression
+   16           | expression . EQ expression
+   31 statement: WRITE expression . ';'
+
+    '+'  shift, and go to state 68
+    '-'  shift, and go to state 69
+    '*'  shift, and go to state 70
+    '/'  shift, and go to state 71
+    AND  shift, and go to state 72
+    OR   shift, and go to state 73
+    EQ   shift, and go to state 74
+    LEQ  shift, and go to state 75
+    GEQ  shift, and go to state 76
+    NEQ  shift, and go to state 77
+    '<'  shift, and go to state 78
+    '>'  shift, and go to state 79
+    ';'  shift, and go to state 84
+
+
+State 46
+
+    5 expression: expression . '+' expression
+    6           | expression . '-' expression
+    7           | expression . '*' expression
+    8           | expression . '/' expression
+    9           | expression . '<' expression
+   10           | expression . '>' expression
+   11           | expression . AND expression
+   12           | expression . OR expression
+   13           | expression . GEQ expression
+   14           | expression . LEQ expression
+   15           | expression . NEQ expression
+   16           | expression . EQ expression
+   35 statement: IF expression . THEN statement
+   36          | IF expression . THEN statement ELSE statement
+
+    '+'   shift, and go to state 68
+    '-'   shift, and go to state 69
+    '*'   shift, and go to state 70
+    '/'   shift, and go to state 71
+    AND   shift, and go to state 72
+    OR    shift, and go to state 73
+    EQ    shift, and go to state 74
+    LEQ   shift, and go to state 75
+    GEQ   shift, and go to state 76
+    NEQ   shift, and go to state 77
+    '<'   shift, and go to state 78
+    '>'   shift, and go to state 79
+    THEN  shift, and go to state 85
+
+
+State 47
+
+   38 statement: '{' statement_list . '}'
+
+    '}'  shift, and go to state 86
+
+
+State 48
+
+    3 variable: variable '[' . expression ']'
+
+    tINTCONST    shift, and go to state 33
+    tIDENTIFIER  shift, and go to state 34
+    tBOOL        shift, and go to state 35
+    tNULL        shift, and go to state 36
+    '('          shift, and go to state 37
+    '!'          shift, and go to state 38
+    '|'          shift, and go to state 39
+
+    variable    go to state 40
+    expression  go to state 87
+    term        go to state 42
+
+
+State 49
+
+    4 variable: variable '.' . tIDENTIFIER
+
+    tIDENTIFIER  shift, and go to state 88
+
+
+State 50
+
+   34 statement: variable '=' . expression ';'
+
+    tINTCONST    shift, and go to state 33
+    tIDENTIFIER  shift, and go to state 34
+    tBOOL        shift, and go to state 35
+    tNULL        shift, and go to state 36
+    '('          shift, and go to state 37
+    '!'          shift, and go to state 38
+    '|'          shift, and go to state 39
+
+    variable    go to state 40
+    expression  go to state 89
+    term        go to state 42
+
+
+State 51
+
+   40 statement_list: statement statement_list .
+
+    $default  reduce using rule 40 (statement_list)
+
+
+State 52
+
+   59 tail: END . tIDENTIFIER
+
+    tIDENTIFIER  shift, and go to state 90
+
+
+State 53
+
+   57 function: head body tail .
+
+    $default  reduce using rule 57 (function)
+
+
+State 54
+
+   52 type: tIDENTIFIER .
+
+    $default  reduce using rule 52 (type)
+
+
+State 55
+
+   55 type: ARRAYOF . type
+
+    tIDENTIFIER  shift, and go to state 54
+    ARRAYOF      shift, and go to state 55
+    RECORDOF     shift, and go to state 56
+    INT          shift, and go to state 57
+    BOOL         shift, and go to state 58
+
+    type  go to state 91
+
+
+State 56
+
+   56 type: RECORDOF . '{' var_decl_list '}'
+
+    '{'  shift, and go to state 92
+
+
+State 57
+
+   53 type: INT .
+
+    $default  reduce using rule 53 (type)
+
+
+State 58
+
+   54 type: BOOL .
+
+    $default  reduce using rule 54 (type)
+
+
+State 59
+
+   41 declaration: TYPEY tIDENTIFIER '=' type . ';'
+
+    ';'  shift, and go to state 93
+
+
+State 60
+
+   47 var_type: tIDENTIFIER ':' type .
+
+    $default  reduce using rule 47 (var_type)
+
+
+State 61
+
+   48 var_decl_list: var_type ',' var_decl_list .
+
+    $default  reduce using rule 48 (var_decl_list)
+
+
+State 62
+
+   50 par_decl_list: var_decl_list .
+
+    $default  reduce using rule 50 (par_decl_list)
+
+
+State 63
+
+   58 head: FUNC tIDENTIFIER '(' par_decl_list . ')' ':' type
+
+    ')'  shift, and go to state 94
+
+
+State 64
+
+   22 term: tIDENTIFIER '(' . act_list ')'
+
+    tINTCONST    shift, and go to state 33
+    tIDENTIFIER  shift, and go to state 34
+    tBOOL        shift, and go to state 35
+    tNULL        shift, and go to state 36
+    '('          shift, and go to state 37
+    '!'          shift, and go to state 38
+    '|'          shift, and go to state 39
+
+    $default  reduce using rule 29 (act_list)
+
+    variable    go to state 40
+    expression  go to state 95
+    exp_list    go to state 96
+    term        go to state 42
+    act_list    go to state 97
+
+
+State 65
+
+    5 expression: expression . '+' expression
+    6           | expression . '-' expression
+    7           | expression . '*' expression
+    8           | expression . '/' expression
+    9           | expression . '<' expression
+   10           | expression . '>' expression
+   11           | expression . AND expression
+   12           | expression . OR expression
+   13           | expression . GEQ expression
+   14           | expression . LEQ expression
+   15           | expression . NEQ expression
+   16           | expression . EQ expression
+   23 term: '(' expression . ')'
+
+    '+'  shift, and go to state 68
+    '-'  shift, and go to state 69
+    '*'  shift, and go to state 70
+    '/'  shift, and go to state 71
+    AND  shift, and go to state 72
+    OR   shift, and go to state 73
+    EQ   shift, and go to state 74
+    LEQ  shift, and go to state 75
+    GEQ  shift, and go to state 76
+    NEQ  shift, and go to state 77
+    '<'  shift, and go to state 78
+    '>'  shift, and go to state 79
+    ')'  shift, and go to state 98
+
+
+State 66
+
+   24 term: '!' term .
+
+    $default  reduce using rule 24 (term)
+
+
+State 67
+
+    5 expression: expression . '+' expression
+    6           | expression . '-' expression
+    7           | expression . '*' expression
+    8           | expression . '/' expression
+    9           | expression . '<' expression
+   10           | expression . '>' expression
+   11           | expression . AND expression
+   12           | expression . OR expression
+   13           | expression . GEQ expression
+   14           | expression . LEQ expression
+   15           | expression . NEQ expression
+   16           | expression . EQ expression
+   25 term: '|' expression . '|'
+
+    '+'  shift, and go to state 68
+    '-'  shift, and go to state 69
+    '*'  shift, and go to state 70
+    '/'  shift, and go to state 71
+    AND  shift, and go to state 72
+    OR   shift, and go to state 73
+    EQ   shift, and go to state 74
+    LEQ  shift, and go to state 75
+    GEQ  shift, and go to state 76
+    NEQ  shift, and go to state 77
+    '<'  shift, and go to state 78
+    '>'  shift, and go to state 79
+    '|'  shift, and go to state 99
+
+
+State 68
+
+    5 expression: expression '+' . expression
+
+    tINTCONST    shift, and go to state 33
+    tIDENTIFIER  shift, and go to state 34
+    tBOOL        shift, and go to state 35
+    tNULL        shift, and go to state 36
+    '('          shift, and go to state 37
+    '!'          shift, and go to state 38
+    '|'          shift, and go to state 39
+
+    variable    go to state 40
+    expression  go to state 100
+    term        go to state 42
+
+
+State 69
+
+    6 expression: expression '-' . expression
+
+    tINTCONST    shift, and go to state 33
+    tIDENTIFIER  shift, and go to state 34
+    tBOOL        shift, and go to state 35
+    tNULL        shift, and go to state 36
+    '('          shift, and go to state 37
+    '!'          shift, and go to state 38
+    '|'          shift, and go to state 39
+
+    variable    go to state 40
+    expression  go to state 101
+    term        go to state 42
+
+
+State 70
+
+    7 expression: expression '*' . expression
+
+    tINTCONST    shift, and go to state 33
+    tIDENTIFIER  shift, and go to state 34
+    tBOOL        shift, and go to state 35
+    tNULL        shift, and go to state 36
+    '('          shift, and go to state 37
+    '!'          shift, and go to state 38
+    '|'          shift, and go to state 39
+
+    variable    go to state 40
+    expression  go to state 102
+    term        go to state 42
+
+
+State 71
+
+    8 expression: expression '/' . expression
+
+    tINTCONST    shift, and go to state 33
+    tIDENTIFIER  shift, and go to state 34
+    tBOOL        shift, and go to state 35
+    tNULL        shift, and go to state 36
+    '('          shift, and go to state 37
+    '!'          shift, and go to state 38
+    '|'          shift, and go to state 39
+
+    variable    go to state 40
+    expression  go to state 103
+    term        go to state 42
+
+
+State 72
+
+   11 expression: expression AND . expression
+
+    tINTCONST    shift, and go to state 33
+    tIDENTIFIER  shift, and go to state 34
+    tBOOL        shift, and go to state 35
+    tNULL        shift, and go to state 36
+    '('          shift, and go to state 37
+    '!'          shift, and go to state 38
+    '|'          shift, and go to state 39
+
+    variable    go to state 40
+    expression  go to state 104
+    term        go to state 42
+
+
+State 73
+
+   12 expression: expression OR . expression
+
+    tINTCONST    shift, and go to state 33
+    tIDENTIFIER  shift, and go to state 34
+    tBOOL        shift, and go to state 35
+    tNULL        shift, and go to state 36
+    '('          shift, and go to state 37
+    '!'          shift, and go to state 38
+    '|'          shift, and go to state 39
+
+    variable    go to state 40
+    expression  go to state 105
+    term        go to state 42
+
+
+State 74
+
+   16 expression: expression EQ . expression
+
+    tINTCONST    shift, and go to state 33
+    tIDENTIFIER  shift, and go to state 34
+    tBOOL        shift, and go to state 35
+    tNULL        shift, and go to state 36
+    '('          shift, and go to state 37
+    '!'          shift, and go to state 38
+    '|'          shift, and go to state 39
+
+    variable    go to state 40
+    expression  go to state 106
+    term        go to state 42
+
+
+State 75
+
+   14 expression: expression LEQ . expression
+
+    tINTCONST    shift, and go to state 33
+    tIDENTIFIER  shift, and go to state 34
+    tBOOL        shift, and go to state 35
+    tNULL        shift, and go to state 36
+    '('          shift, and go to state 37
+    '!'          shift, and go to state 38
+    '|'          shift, and go to state 39
+
+    variable    go to state 40
+    expression  go to state 107
+    term        go to state 42
+
+
+State 76
+
+   13 expression: expression GEQ . expression
+
+    tINTCONST    shift, and go to state 33
+    tIDENTIFIER  shift, and go to state 34
+    tBOOL        shift, and go to state 35
+    tNULL        shift, and go to state 36
+    '('          shift, and go to state 37
+    '!'          shift, and go to state 38
+    '|'          shift, and go to state 39
+
+    variable    go to state 40
+    expression  go to state 108
+    term        go to state 42
+
+
+State 77
+
+   15 expression: expression NEQ . expression
+
+    tINTCONST    shift, and go to state 33
+    tIDENTIFIER  shift, and go to state 34
+    tBOOL        shift, and go to state 35
+    tNULL        shift, and go to state 36
+    '('          shift, and go to state 37
+    '!'          shift, and go to state 38
+    '|'          shift, and go to state 39
+
+    variable    go to state 40
+    expression  go to state 109
+    term        go to state 42
+
+
+State 78
+
+    9 expression: expression '<' . expression
+
+    tINTCONST    shift, and go to state 33
+    tIDENTIFIER  shift, and go to state 34
+    tBOOL        shift, and go to state 35
+    tNULL        shift, and go to state 36
+    '('          shift, and go to state 37
+    '!'          shift, and go to state 38
+    '|'          shift, and go to state 39
+
+    variable    go to state 40
+    expression  go to state 110
+    term        go to state 42
+
+
+State 79
+
+   10 expression: expression '>' . expression
+
+    tINTCONST    shift, and go to state 33
+    tIDENTIFIER  shift, and go to state 34
+    tBOOL        shift, and go to state 35
+    tNULL        shift, and go to state 36
+    '('          shift, and go to state 37
+    '!'          shift, and go to state 38
+    '|'          shift, and go to state 39
+
+    variable    go to state 40
+    expression  go to state 111
+    term        go to state 42
+
+
+State 80
+
+   30 statement: RETURN expression ';' .
+
+    $default  reduce using rule 30 (statement)
+
+
+State 81
+
+   37 statement: WHILE expression DO . statement
+
+    tIDENTIFIER  shift, and go to state 17
+    RETURN       shift, and go to state 18
+    WHILE        shift, and go to state 19
+    ALLOCATE     shift, and go to state 20
+    WRITE        shift, and go to state 21
+    IF           shift, and go to state 22
+    '{'          shift, and go to state 23
+
+    variable   go to state 24
+    statement  go to state 112
+
+
+State 82
+
+   33 statement: ALLOCATE variable OFLENGTH . expression ';'
+
+    tINTCONST    shift, and go to state 33
+    tIDENTIFIER  shift, and go to state 34
+    tBOOL        shift, and go to state 35
+    tNULL        shift, and go to state 36
+    '('          shift, and go to state 37
+    '!'          shift, and go to state 38
+    '|'          shift, and go to state 39
+
+    variable    go to state 40
+    expression  go to state 113
+    term        go to state 42
+
+
+State 83
+
+   32 statement: ALLOCATE variable ';' .
+
+    $default  reduce using rule 32 (statement)
+
+
+State 84
+
+   31 statement: WRITE expression ';' .
+
+    $default  reduce using rule 31 (statement)
+
+
+State 85
+
+   35 statement: IF expression THEN . statement
+   36          | IF expression THEN . statement ELSE statement
+
+    tIDENTIFIER  shift, and go to state 17
+    RETURN       shift, and go to state 18
+    WHILE        shift, and go to state 19
+    ALLOCATE     shift, and go to state 20
+    WRITE        shift, and go to state 21
+    IF           shift, and go to state 22
+    '{'          shift, and go to state 23
+
+    variable   go to state 24
+    statement  go to state 114
+
+
+State 86
+
+   38 statement: '{' statement_list '}' .
+
+    $default  reduce using rule 38 (statement)
+
+
+State 87
+
+    3 variable: variable '[' expression . ']'
+    5 expression: expression . '+' expression
+    6           | expression . '-' expression
+    7           | expression . '*' expression
+    8           | expression . '/' expression
+    9           | expression . '<' expression
+   10           | expression . '>' expression
+   11           | expression . AND expression
+   12           | expression . OR expression
+   13           | expression . GEQ expression
+   14           | expression . LEQ expression
+   15           | expression . NEQ expression
+   16           | expression . EQ expression
+
+    '+'  shift, and go to state 68
+    '-'  shift, and go to state 69
+    '*'  shift, and go to state 70
+    '/'  shift, and go to state 71
+    AND  shift, and go to state 72
+    OR   shift, and go to state 73
+    EQ   shift, and go to state 74
+    LEQ  shift, and go to state 75
+    GEQ  shift, and go to state 76
+    NEQ  shift, and go to state 77
+    '<'  shift, and go to state 78
+    '>'  shift, and go to state 79
+    ']'  shift, and go to state 115
+
+
+State 88
+
+    4 variable: variable '.' tIDENTIFIER .
+
+    $default  reduce using rule 4 (variable)
+
+
+State 89
+
+    5 expression: expression . '+' expression
+    6           | expression . '-' expression
+    7           | expression . '*' expression
+    8           | expression . '/' expression
+    9           | expression . '<' expression
+   10           | expression . '>' expression
+   11           | expression . AND expression
+   12           | expression . OR expression
+   13           | expression . GEQ expression
+   14           | expression . LEQ expression
+   15           | expression . NEQ expression
+   16           | expression . EQ expression
+   34 statement: variable '=' expression . ';'
+
+    '+'  shift, and go to state 68
+    '-'  shift, and go to state 69
+    '*'  shift, and go to state 70
+    '/'  shift, and go to state 71
+    AND  shift, and go to state 72
+    OR   shift, and go to state 73
+    EQ   shift, and go to state 74
+    LEQ  shift, and go to state 75
+    GEQ  shift, and go to state 76
+    NEQ  shift, and go to state 77
+    '<'  shift, and go to state 78
+    '>'  shift, and go to state 79
+    ';'  shift, and go to state 116
+
+
+State 90
+
+   59 tail: END tIDENTIFIER .
+
+    $default  reduce using rule 59 (tail)
+
+
+State 91
+
+   55 type: ARRAYOF type .
+
+    $default  reduce using rule 55 (type)
+
+
+State 92
+
+   56 type: RECORDOF '{' . var_decl_list '}'
+
+    tIDENTIFIER  shift, and go to state 11
+
+    var_type       go to state 12
+    var_decl_list  go to state 117
+
+
+State 93
+
+   41 declaration: TYPEY tIDENTIFIER '=' type ';' .
+
+    $default  reduce using rule 41 (declaration)
+
+
+State 94
+
+   58 head: FUNC tIDENTIFIER '(' par_decl_list ')' . ':' type
+
+    ':'  shift, and go to state 118
+
+
+State 95
+
+    5 expression: expression . '+' expression
+    6           | expression . '-' expression
+    7           | expression . '*' expression
+    8           | expression . '/' expression
+    9           | expression . '<' expression
+   10           | expression . '>' expression
+   11           | expression . AND expression
+   12           | expression . OR expression
+   13           | expression . GEQ expression
+   14           | expression . LEQ expression
+   15           | expression . NEQ expression
+   16           | expression . EQ expression
+   18 exp_list: expression .
+   19         | expression . ',' exp_list
+
+    '+'  shift, and go to state 68
+    '-'  shift, and go to state 69
+    '*'  shift, and go to state 70
+    '/'  shift, and go to state 71
+    AND  shift, and go to state 72
+    OR   shift, and go to state 73
+    EQ   shift, and go to state 74
+    LEQ  shift, and go to state 75
+    GEQ  shift, and go to state 76
+    NEQ  shift, and go to state 77
+    '<'  shift, and go to state 78
+    '>'  shift, and go to state 79
+    ','  shift, and go to state 119
+
+    $default  reduce using rule 18 (exp_list)
+
+
+State 96
+
+   28 act_list: exp_list .
+
+    $default  reduce using rule 28 (act_list)
+
+
+State 97
+
+   22 term: tIDENTIFIER '(' act_list . ')'
+
+    ')'  shift, and go to state 120
+
+
+State 98
+
+   23 term: '(' expression ')' .
+
+    $default  reduce using rule 23 (term)
+
+
+State 99
+
+   25 term: '|' expression '|' .
+
+    $default  reduce using rule 25 (term)
+
+
+State 100
+
+    5 expression: expression . '+' expression
+    5           | expression '+' expression .
+    6           | expression . '-' expression
+    7           | expression . '*' expression
+    8           | expression . '/' expression
+    9           | expression . '<' expression
+   10           | expression . '>' expression
+   11           | expression . AND expression
+   12           | expression . OR expression
+   13           | expression . GEQ expression
+   14           | expression . LEQ expression
+   15           | expression . NEQ expression
+   16           | expression . EQ expression
+
+    '*'  shift, and go to state 70
+    '/'  shift, and go to state 71
+    AND  shift, and go to state 72
+
+    $default  reduce using rule 5 (expression)
+
+
+State 101
+
+    5 expression: expression . '+' expression
+    6           | expression . '-' expression
+    6           | expression '-' expression .
+    7           | expression . '*' expression
+    8           | expression . '/' expression
+    9           | expression . '<' expression
+   10           | expression . '>' expression
+   11           | expression . AND expression
+   12           | expression . OR expression
+   13           | expression . GEQ expression
+   14           | expression . LEQ expression
+   15           | expression . NEQ expression
+   16           | expression . EQ expression
+
+    '*'  shift, and go to state 70
+    '/'  shift, and go to state 71
+    AND  shift, and go to state 72
+
+    $default  reduce using rule 6 (expression)
+
+
+State 102
+
+    5 expression: expression . '+' expression
+    6           | expression . '-' expression
+    7           | expression . '*' expression
+    7           | expression '*' expression .
+    8           | expression . '/' expression
+    9           | expression . '<' expression
+   10           | expression . '>' expression
+   11           | expression . AND expression
+   12           | expression . OR expression
+   13           | expression . GEQ expression
+   14           | expression . LEQ expression
+   15           | expression . NEQ expression
+   16           | expression . EQ expression
+
+    $default  reduce using rule 7 (expression)
+
+
+State 103
+
+    5 expression: expression . '+' expression
+    6           | expression . '-' expression
+    7           | expression . '*' expression
+    8           | expression . '/' expression
+    8           | expression '/' expression .
+    9           | expression . '<' expression
+   10           | expression . '>' expression
+   11           | expression . AND expression
+   12           | expression . OR expression
+   13           | expression . GEQ expression
+   14           | expression . LEQ expression
+   15           | expression . NEQ expression
+   16           | expression . EQ expression
+
+    $default  reduce using rule 8 (expression)
+
+
+State 104
+
+    5 expression: expression . '+' expression
+    6           | expression . '-' expression
+    7           | expression . '*' expression
+    8           | expression . '/' expression
+    9           | expression . '<' expression
+   10           | expression . '>' expression
+   11           | expression . AND expression
+   11           | expression AND expression .
+   12           | expression . OR expression
+   13           | expression . GEQ expression
+   14           | expression . LEQ expression
+   15           | expression . NEQ expression
+   16           | expression . EQ expression
+
+    $default  reduce using rule 11 (expression)
+
+
+State 105
+
+    5 expression: expression . '+' expression
+    6           | expression . '-' expression
+    7           | expression . '*' expression
+    8           | expression . '/' expression
+    9           | expression . '<' expression
+   10           | expression . '>' expression
+   11           | expression . AND expression
+   12           | expression . OR expression
+   12           | expression OR expression .
+   13           | expression . GEQ expression
+   14           | expression . LEQ expression
+   15           | expression . NEQ expression
+   16           | expression . EQ expression
+
+    '+'  shift, and go to state 68
+    '-'  shift, and go to state 69
+    '*'  shift, and go to state 70
+    '/'  shift, and go to state 71
+    AND  shift, and go to state 72
+    '<'  shift, and go to state 78
+    '>'  shift, and go to state 79
+
+    OR   error (nonassociative)
+    EQ   error (nonassociative)
+    LEQ  error (nonassociative)
+    GEQ  error (nonassociative)
+    NEQ  error (nonassociative)
+
+    $default  reduce using rule 12 (expression)
+
+
+State 106
+
+    5 expression: expression . '+' expression
+    6           | expression . '-' expression
+    7           | expression . '*' expression
+    8           | expression . '/' expression
+    9           | expression . '<' expression
+   10           | expression . '>' expression
+   11           | expression . AND expression
+   12           | expression . OR expression
+   13           | expression . GEQ expression
+   14           | expression . LEQ expression
+   15           | expression . NEQ expression
+   16           | expression . EQ expression
+   16           | expression EQ expression .
+
+    '+'  shift, and go to state 68
+    '-'  shift, and go to state 69
+    '*'  shift, and go to state 70
+    '/'  shift, and go to state 71
+    AND  shift, and go to state 72
+    '<'  shift, and go to state 78
+    '>'  shift, and go to state 79
+
+    OR   error (nonassociative)
+    EQ   error (nonassociative)
+    LEQ  error (nonassociative)
+    GEQ  error (nonassociative)
+    NEQ  error (nonassociative)
+
+    $default  reduce using rule 16 (expression)
+
+
+State 107
+
+    5 expression: expression . '+' expression
+    6           | expression . '-' expression
+    7           | expression . '*' expression
+    8           | expression . '/' expression
+    9           | expression . '<' expression
+   10           | expression . '>' expression
+   11           | expression . AND expression
+   12           | expression . OR expression
+   13           | expression . GEQ expression
+   14           | expression . LEQ expression
+   14           | expression LEQ expression .
+   15           | expression . NEQ expression
+   16           | expression . EQ expression
+
+    '+'  shift, and go to state 68
+    '-'  shift, and go to state 69
+    '*'  shift, and go to state 70
+    '/'  shift, and go to state 71
+    AND  shift, and go to state 72
+    '<'  shift, and go to state 78
+    '>'  shift, and go to state 79
+
+    OR   error (nonassociative)
+    EQ   error (nonassociative)
+    LEQ  error (nonassociative)
+    GEQ  error (nonassociative)
+    NEQ  error (nonassociative)
+
+    $default  reduce using rule 14 (expression)
+
+
+State 108
+
+    5 expression: expression . '+' expression
+    6           | expression . '-' expression
+    7           | expression . '*' expression
+    8           | expression . '/' expression
+    9           | expression . '<' expression
+   10           | expression . '>' expression
+   11           | expression . AND expression
+   12           | expression . OR expression
+   13           | expression . GEQ expression
+   13           | expression GEQ expression .
+   14           | expression . LEQ expression
+   15           | expression . NEQ expression
+   16           | expression . EQ expression
+
+    '+'  shift, and go to state 68
+    '-'  shift, and go to state 69
+    '*'  shift, and go to state 70
+    '/'  shift, and go to state 71
+    AND  shift, and go to state 72
+    '<'  shift, and go to state 78
+    '>'  shift, and go to state 79
+
+    OR   error (nonassociative)
+    EQ   error (nonassociative)
+    LEQ  error (nonassociative)
+    GEQ  error (nonassociative)
+    NEQ  error (nonassociative)
+
+    $default  reduce using rule 13 (expression)
+
+
+State 109
+
+    5 expression: expression . '+' expression
+    6           | expression . '-' expression
+    7           | expression . '*' expression
+    8           | expression . '/' expression
+    9           | expression . '<' expression
+   10           | expression . '>' expression
+   11           | expression . AND expression
+   12           | expression . OR expression
+   13           | expression . GEQ expression
+   14           | expression . LEQ expression
+   15           | expression . NEQ expression
+   15           | expression NEQ expression .
+   16           | expression . EQ expression
+
+    '+'  shift, and go to state 68
+    '-'  shift, and go to state 69
+    '*'  shift, and go to state 70
+    '/'  shift, and go to state 71
+    AND  shift, and go to state 72
+    '<'  shift, and go to state 78
+    '>'  shift, and go to state 79
+
+    OR   error (nonassociative)
+    EQ   error (nonassociative)
+    LEQ  error (nonassociative)
+    GEQ  error (nonassociative)
+    NEQ  error (nonassociative)
+
+    $default  reduce using rule 15 (expression)
+
+
+State 110
+
+    5 expression: expression . '+' expression
+    6           | expression . '-' expression
+    7           | expression . '*' expression
+    8           | expression . '/' expression
+    9           | expression . '<' expression
+    9           | expression '<' expression .
+   10           | expression . '>' expression
+   11           | expression . AND expression
+   12           | expression . OR expression
+   13           | expression . GEQ expression
+   14           | expression . LEQ expression
+   15           | expression . NEQ expression
+   16           | expression . EQ expression
+
+    '+'  shift, and go to state 68
+    '-'  shift, and go to state 69
+    '*'  shift, and go to state 70
+    '/'  shift, and go to state 71
+    AND  shift, and go to state 72
+    '<'  shift, and go to state 78
+    '>'  shift, and go to state 79
+
+    $default  reduce using rule 9 (expression)
+
+
+State 111
+
+    5 expression: expression . '+' expression
+    6           | expression . '-' expression
+    7           | expression . '*' expression
+    8           | expression . '/' expression
+    9           | expression . '<' expression
+   10           | expression . '>' expression
+   10           | expression '>' expression .
+   11           | expression . AND expression
+   12           | expression . OR expression
+   13           | expression . GEQ expression
+   14           | expression . LEQ expression
+   15           | expression . NEQ expression
+   16           | expression . EQ expression
+
+    '+'  shift, and go to state 68
+    '-'  shift, and go to state 69
+    '*'  shift, and go to state 70
+    '/'  shift, and go to state 71
+    AND  shift, and go to state 72
+    '<'  shift, and go to state 78
+    '>'  shift, and go to state 79
+
+    $default  reduce using rule 10 (expression)
+
+
+State 112
+
+   37 statement: WHILE expression DO statement .
+
+    $default  reduce using rule 37 (statement)
+
+
+State 113
+
+    5 expression: expression . '+' expression
+    6           | expression . '-' expression
+    7           | expression . '*' expression
+    8           | expression . '/' expression
+    9           | expression . '<' expression
+   10           | expression . '>' expression
+   11           | expression . AND expression
+   12           | expression . OR expression
+   13           | expression . GEQ expression
+   14           | expression . LEQ expression
+   15           | expression . NEQ expression
+   16           | expression . EQ expression
+   33 statement: ALLOCATE variable OFLENGTH expression . ';'
+
+    '+'  shift, and go to state 68
+    '-'  shift, and go to state 69
+    '*'  shift, and go to state 70
+    '/'  shift, and go to state 71
+    AND  shift, and go to state 72
+    OR   shift, and go to state 73
+    EQ   shift, and go to state 74
+    LEQ  shift, and go to state 75
+    GEQ  shift, and go to state 76
+    NEQ  shift, and go to state 77
+    '<'  shift, and go to state 78
+    '>'  shift, and go to state 79
+    ';'  shift, and go to state 121
+
+
+State 114
+
+   35 statement: IF expression THEN statement .
+   36          | IF expression THEN statement . ELSE statement
+
+    ELSE  shift, and go to state 122
+
+    $default  reduce using rule 35 (statement)
+
+
+State 115
+
+    3 variable: variable '[' expression ']' .
+
+    $default  reduce using rule 3 (variable)
+
+
+State 116
+
+   34 statement: variable '=' expression ';' .
+
+    $default  reduce using rule 34 (statement)
+
+
+State 117
+
+   56 type: RECORDOF '{' var_decl_list . '}'
+
+    '}'  shift, and go to state 123
+
+
+State 118
+
+   58 head: FUNC tIDENTIFIER '(' par_decl_list ')' ':' . type
+
+    tIDENTIFIER  shift, and go to state 54
+    ARRAYOF      shift, and go to state 55
+    RECORDOF     shift, and go to state 56
+    INT          shift, and go to state 57
+    BOOL         shift, and go to state 58
+
+    type  go to state 124
+
+
+State 119
+
+   19 exp_list: expression ',' . exp_list
+
+    tINTCONST    shift, and go to state 33
+    tIDENTIFIER  shift, and go to state 34
+    tBOOL        shift, and go to state 35
+    tNULL        shift, and go to state 36
+    '('          shift, and go to state 37
+    '!'          shift, and go to state 38
+    '|'          shift, and go to state 39
+
+    variable    go to state 40
+    expression  go to state 95
+    exp_list    go to state 125
+    term        go to state 42
+
+
+State 120
+
+   22 term: tIDENTIFIER '(' act_list ')' .
+
+    $default  reduce using rule 22 (term)
+
+
+State 121
+
+   33 statement: ALLOCATE variable OFLENGTH expression ';' .
+
+    $default  reduce using rule 33 (statement)
+
+
+State 122
+
+   36 statement: IF expression THEN statement ELSE . statement
+
+    tIDENTIFIER  shift, and go to state 17
+    RETURN       shift, and go to state 18
+    WHILE        shift, and go to state 19
+    ALLOCATE     shift, and go to state 20
+    WRITE        shift, and go to state 21
+    IF           shift, and go to state 22
+    '{'          shift, and go to state 23
+
+    variable   go to state 24
+    statement  go to state 126
+
+
+State 123
+
+   56 type: RECORDOF '{' var_decl_list '}' .
+
+    $default  reduce using rule 56 (type)
+
+
+State 124
+
+   58 head: FUNC tIDENTIFIER '(' par_decl_list ')' ':' type .
+
+    $default  reduce using rule 58 (head)
+
+
+State 125
+
+   19 exp_list: expression ',' exp_list .
+
+    $default  reduce using rule 19 (exp_list)
+
+
+State 126
+
+   36 statement: IF expression THEN statement ELSE statement .
+
+    $default  reduce using rule 36 (statement)

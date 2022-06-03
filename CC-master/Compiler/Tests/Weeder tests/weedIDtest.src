@@ -1,0 +1,37 @@
+# Test for weeder
+# Adder function has an invalid end id and is not and because of that an error message should be printed in the terminal and the program exited.
+func adder(i: int, j: int, b: bool): int
+   write i + j;
+
+   if b then{
+      write i + j;}
+   else{
+      write 1;
+      return 7;}
+
+   b = !b;
+   if b then{
+      return 4;}
+   else{
+      write i + j;}
+end addet
+
+
+func subtract(i: int, j: int, b: bool): int
+   write i - j;
+
+   if b then{
+      write i - j;
+      return 8;}
+   else{
+      write 1;
+      return 5;}
+   b = !b;
+   if b then{
+      return 3;}
+   else{
+      write i + j;}
+   return 3;
+end subtract
+
+write 7;
